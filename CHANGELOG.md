@@ -1,5 +1,44 @@
 # Changelog
 
+## [v1.4.1](https://github.com/couchbasecloud/terraform-provider-couchbase-capella/tree/v1.4.1) (2024-12-20)
+
+[Full Changelog](https://github.com/couchbasecloud/terraform-provider-couchbase-capella/compare/v1.4.0...v1.4.1)
+
+**Implemented enhancements:**
+- Allows the provider `host` and `authentication_token` to be set through environment variables prefixed with `CAPELLA_HOST` and `CAPELLA_AUTHENTICATION_TOKEN`. [\#239](https://github.com/couchbasecloud/terraform-provider-couchbase-capella/pull/239) ([cdsre](https://github.com/cdsre))
+
+**Fixed bugs:**
+- \[AV-92771\] Fix GSI documentation link  [\#248](https://github.com/couchbasecloud/terraform-provider-couchbase-capella/pull/248) ([a-atri](https://github.com/a-atri))
+
+**Documentation Enhancement:**
+- \[AV-92775\] Update the Getting Started GSI example to create a non-deferred secondary index [\#247](https://github.com/couchbasecloud/terraform-provider-couchbase-capella/pull/247) ([l0n3star](https://github.com/l0n3star))
+
+**Merged pull requests:**
+- Bump github.com/stretchr/testify from 1.9.0 to 1.10.0 [#251](https://github.com/couchbasecloud/terraform-provider-couchbase-capella/pull/251) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump golang.org/x/crypto from 0.30.0 to 0.31.0 [#249](https://github.com/couchbasecloud/terraform-provider-couchbase-capella/pull/249) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump github.com/couchbase/tools-common/functional from 1.2.0 to 1.3.1 [#246](https://github.com/couchbasecloud/terraform-provider-couchbase-capella/pull/246) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump github.com/hashicorp/terraform-plugin-framework-validators from 0.12.0 to 0.16.0 [#237](https://github.com/couchbasecloud/terraform-provider-couchbase-capella/pull/237) ([dependabot[bot]](https://github.com/apps/dependabot))
+
+
+
+## [v1.4.0](https://github.com/couchbasecloud/terraform-provider-couchbase-capella/tree/v1.4.0) (2024-12-09)
+
+[Full Changelog](https://github.com/couchbasecloud/terraform-provider-couchbase-capella/compare/v1.3.0...v1.4.0)
+
+**Implemented enhancements:**
+- \[AV-90715\] Add support for `zones` in Cluster [\#241](https://github.com/couchbasecloud/terraform-provider-couchbase-capella/pull/241) ([PaulomeeCb](https://github.com/PaulomeeCb))
+- \[AV-82735\] Add support for Flush Bucket Data [\#234](https://github.com/couchbasecloud/terraform-provider-couchbase-capella/pull/234) ([Lagher0](https://github.com/Lagher0))
+- \[AV-76498\] Add support for GSI Index Management [\#233](https://github.com/couchbasecloud/terraform-provider-couchbase-capella/pull/233) ([l0n3star](https://github.com/l0n3star))
+- \[AV-87139\] Update gorunner version [\#229](https://github.com/couchbasecloud/terraform-provider-couchbase-capella/pull/229)([a-atri](https://github.com/a-atri))
+- \[AV-78889\] Add support for Azure VNET Peering [\#216](https://github.com/couchbasecloud/terraform-provider-couchbase-capella/pull/216) ([PaulomeeCb](https://github.com/PaulomeeCb))
+
+**Fixed bugs:**
+- \[AV-90385\] Add check for unsupported `storage` and `IOPS` values in case of `Azure Premium Disk` [\#240](https://github.com/couchbasecloud/terraform-provider-couchbase-capella/pull/240) ([PaulomeeCb](https://github.com/PaulomeeCb))
+- \[AV-87077\] Resolve false positives in acceptance tests by correcting the handling of computed values [\#227](https://github.com/couchbasecloud/terraform-provider-couchbase-capella/pull/202) ([l0n3star](https://github.com/l0n3star))
+- \[AV-86105\] Initialize `autoexpansion` field with a null value [\#226](https://github.com/couchbasecloud/terraform-provider-couchbase-capella/pull/226) ([aniket-Kumar-c](https://github.com/aniket-Kumar-c))
+
+
+
 ## [v1.3.0](https://github.com/couchbasecloud/terraform-provider-couchbase-capella/tree/v1.3.0) (2024-09-11)
 
 [Full Changelog](https://github.com/couchbasecloud/terraform-provider-couchbase-capella/compare/v1.2.1...v1.3.0)
