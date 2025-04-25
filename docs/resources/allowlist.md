@@ -28,20 +28,20 @@ resource "couchbase-capella_allowlist" "allowlist" {
 
 ### Required
 
-- `cidr` (String) The IP CIDR range to allow access
-- `cluster_id` (String) The cluster id the allowlist belongs to
-- `organization_id` (String) The organization id the allowlist belongs to
-- `project_id` (String) The Project id the allowlist belongs to
+- `cidr` (String) A cidr range for allowed ip's
+- `cluster_id` (String) The cluster ID
+- `organization_id` (String) The organization ID
+- `project_id` (String) The project ID
 
 ### Optional
 
 - `comment` (String) A comment/description about the allow list
-- `expires_at` (String) The expiration time of the allow list
+- `expires_at` (String) An expires at timestamp as a string
 
 ### Read-Only
 
 - `audit` (Attributes) (see [below for nested schema](#nestedatt--audit))
-- `id` (String) The ID of this resource.
+- `id` (String) The ID of the allowlist.
 
 <a id="nestedatt--audit"></a>
 ### Nested Schema for `audit`

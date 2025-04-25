@@ -2,47 +2,27 @@ package resources
 
 import (
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 )
 
 func AllowlistsSchema() schema.Schema {
 	return schema.Schema{
 		Attributes: map[string]schema.Attribute{
-			"id": stringAttributeSchema(
-				WithComputed(),
-				WithUseStateForUnknown(),
-			),
-			"organization_id": stringAttributeSchema(
-				WithRequired(),
-				WithRequiresReplace(),
-				WithDescription("The organization id the allowlist belongs to"),
-			),
-			"project_id": stringAttributeSchema(
-				WithRequired(),
-				WithRequiresReplace(),
-				WithDescription("The Project id the allowlist belongs to"),
-			),
-			"cluster_id": stringAttributeSchema(
-				WithRequired(),
-				WithRequiresReplace(),
-				WithDescription("The cluster id the allowlist belongs to"),
-			),
-			"cidr": stringAttributeSchema(
-				WithRequired(),
-				WithRequiresReplace(),
-				WithDescription("The IP CIDR range to allow access"),
-			),
-			"comment": stringAttributeSchema(
-				WithOptional(),
-				WithRequiresReplace(),
-				WithDescription("A comment/description about the allow list"),
-				WithComputed(),
-			),
-			"expires_at": stringAttributeSchema(
-				WithOptional(),
-				WithRequiresReplace(),
-				WithDescription("The expiration time of the allow list"),
-			),
-			"audit": computedAuditAttribute(),
+			"id": schema.StringAttribute{
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+				Description: "The ID of the allowlist.",
+			},
+			"organization_id": stringAttributeWithDescription([]string{required, requiresReplace}, "The organization ID"),
+			"project_id":      stringAttributeWithDescription([]string{required, requiresReplace}, "The project ID"),
+			"cluster_id":      stringAttributeWithDescription([]string{required, requiresReplace}, "The cluster ID"),
+			"cidr":            stringAttributeWithDescription([]string{required, requiresReplace}, "A cidr range for allowed ip's"),
+			"comment":         stringAttributeWithDescription([]string{optional, requiresReplace, computed}, "A comment/description about the allow list"),
+			"expires_at":      stringAttributeWithDescription([]string{optional, requiresReplace}, "An expires at timestamp as a string"),
+			"audit":           computedAuditAttribute(),
 		},
 	}
 }
