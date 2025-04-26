@@ -63,6 +63,12 @@ func stringAttribute(fields []string, validators ...validator.String) *schema.St
 	return &attribute
 }
 
+func stringAttributeWithDescription(fields []string, description string, validators ...validator.String) *schema.StringAttribute {
+	attribute := stringAttribute(fields, validators...)
+	attribute.Description = description
+	return attribute
+}
+
 // stringDefaultAttribute sets the default values for a string field and returns the string attribute.
 func stringDefaultAttribute(defaultValue string, fields ...string) *schema.StringAttribute {
 	attribute := stringAttribute(fields)
