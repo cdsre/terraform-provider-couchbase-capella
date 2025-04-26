@@ -28,15 +28,15 @@ resource "couchbase-capella_allowlist" "allowlist" {
 
 ### Required
 
-- `cidr` (String) A cidr range for allowed ip's
-- `cluster_id` (String) The cluster ID
-- `organization_id` (String) The organization ID
-- `project_id` (String) The project ID
+- `cidr` (String) The trusted CIDR to allow the database connections from.
+- `cluster_id` (String) The GUID4 ID of the cluster.
+- `organization_id` (String) The GUID4 ID of the organization.
+- `project_id` (String) The GUID4 ID of the project.
 
 ### Optional
 
-- `comment` (String) A comment/description about the allow list
-- `expires_at` (String) An expires at timestamp as a string
+- `comment` (String) A short description of the allowed CIDR.
+- `expires_at` (String) An RFC3339 timestamp determining when the allowed CIDR should expire. If this field is empty/omitted then the allowed CIDR is permanent and will never automatically expire.
 
 ### Read-Only
 
