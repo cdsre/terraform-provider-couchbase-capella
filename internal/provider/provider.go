@@ -2,6 +2,8 @@ package provider
 
 import (
 	"context"
+	"github.com/couchbasecloud/terraform-provider-couchbase-capella/internal/actions"
+	"github.com/hashicorp/terraform-plugin-framework/action"
 	"net/http"
 	"os"
 	"time"
@@ -293,5 +295,11 @@ func (p *capellaProvider) Resources(_ context.Context) []func() resource.Resourc
 		resources.NewAppEndpointOidcProvider,
 		resources.NewAppEndpointDefaultOidcProvider,
 		resources.NewSnapshotBackupSchedule,
+	}
+}
+
+func (p *capellaProvider) Actions(_ context.Context) []func() action.Action {
+	return []func() action.Action{
+		actions.NewBuildIndexAction,
 	}
 }
