@@ -8,6 +8,9 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"net/http"
+	"strings"
+
 	"github.com/couchbasecloud/terraform-provider-couchbase-capella/internal/api"
 	internalerrors "github.com/couchbasecloud/terraform-provider-couchbase-capella/internal/errors"
 	providerschema "github.com/couchbasecloud/terraform-provider-couchbase-capella/internal/schema"
@@ -15,8 +18,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/action/schema"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
-	"net/http"
-	"strings"
 )
 
 // Ensure provider defined types fully satisfy framework interfaces.
@@ -29,7 +30,7 @@ func NewBuildIndexAction() action.Action {
 
 // BuildIndexAction defines the action implementation.
 type BuildIndexAction struct {
-	client *providerschema.Data
+	*providerschema.Data
 }
 
 // BuildIndexActionModel describes the action data model.
@@ -96,13 +97,13 @@ func (bi *BuildIndexAction) Configure(ctx context.Context, req action.ConfigureR
 	if !ok {
 		resp.Diagnostics.AddError(
 			"Unexpected Data Source Configure Type",
-			fmt.Sprintf("Expected *http.Client, got: %T. Please report this issue to the provider developers.", req.ProviderData),
+			fmt.Sprintf("Expected *providerschema.Data, got: %T. Please report this issue to the provider developers.", req.ProviderData),
 		)
 
 		return
 	}
 
-	bi.client = client
+	bi.Data = client
 }
 
 func (bi *BuildIndexAction) Invoke(ctx context.Context, req action.InvokeRequest, resp *action.InvokeResponse) {
@@ -146,16 +147,16 @@ func (bi *BuildIndexAction) Invoke(ctx context.Context, req action.InvokeRequest
 			tflog.Error(ctx, "rate limiter error: "+err.Error())
 		}
 
-		res, err := bi.client.ClientV1.ExecuteWithRetry(
+		res, err := bi.ClientV1.ExecuteWithRetry(
 			ctx,
 			cfg,
 			nil,
-			bi.client.Token,
+			bi.Token,
 			nil,
 		)
 
 		status := api.IndexBuildStatusResponse{}
-		if err = json.Unmarshal(response.Body, &status); err != nil {
+		if err = json.Unmarshal(res.Body, &status); err != nil {
 			return res, err
 		}
 		resp.SendProgress(action.InvokeProgressEvent{
@@ -171,7 +172,7 @@ func (bi *BuildIndexAction) Invoke(ctx context.Context, req action.InvokeRequest
 		[]string{data.IndexName.ValueString()},
 		monitor,
 		api.Options{
-			Host:       bi.client.HostURL,
+			Host:       bi.HostURL,
 			OrgId:      data.OrganizationId.ValueString(),
 			ProjectId:  data.ProjectId.ValueString(),
 			ClusterId:  data.ClusterId.ValueString(),
@@ -205,7 +206,7 @@ func (bi *BuildIndexAction) Invoke(ctx context.Context, req action.InvokeRequest
 func (bi *BuildIndexAction) executeGsiDdl(ctx context.Context, plan *BuildIndexActionModel, ddl string) error {
 	uri := fmt.Sprintf(
 		"%s/v4/organizations/%s/projects/%s/clusters/%s/queryService/indexes",
-		bi.client.HostURL,
+		bi.HostURL,
 		plan.OrganizationId.ValueString(),
 		plan.ProjectId.ValueString(),
 		plan.ClusterId.ValueString(),
@@ -218,11 +219,11 @@ func (bi *BuildIndexAction) executeGsiDdl(ctx context.Context, plan *BuildIndexA
 		// do not block if rate limiter fails
 		tflog.Error(ctx, "rate limiter error: "+err.Error())
 	}
-	response, err := bi.client.ClientV1.ExecuteWithRetry(
+	response, err := bi.ClientV1.ExecuteWithRetry(
 		ctx,
 		cfg,
 		ddlRequest,
-		bi.client.Token,
+		bi.Token,
 		nil,
 	)
 	switch {

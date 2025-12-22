@@ -2,11 +2,12 @@ package provider
 
 import (
 	"context"
-	"github.com/couchbasecloud/terraform-provider-couchbase-capella/internal/actions"
-	"github.com/hashicorp/terraform-plugin-framework/action"
 	"net/http"
 	"os"
 	"time"
+
+	"github.com/couchbasecloud/terraform-provider-couchbase-capella/internal/actions"
+	"github.com/hashicorp/terraform-plugin-framework/action"
 
 	"github.com/couchbasecloud/terraform-provider-couchbase-capella/internal/api"
 	"github.com/couchbasecloud/terraform-provider-couchbase-capella/internal/datasources"
@@ -200,6 +201,7 @@ func (p *capellaProvider) Configure(
 	// to [resource.ConfigureRequest.ProviderData] for each Resource type
 	// that implements the Configure method.
 	resp.ResourceData = providerData
+	resp.ActionData = providerData
 
 	tflog.Info(ctx, "Configured Capella client", map[string]any{"success": true})
 
